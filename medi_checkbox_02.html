@@ -1,0 +1,56 @@
+<!-- 체크박스 -->
+<input type="checkbox" id="n_eye_health" value="n_eye_health">
+<label for="n_eye_health">눈 건강</label>
+<input type="checkbox" id="n_liver_health" value="n_liver_health">
+<label for="n_liver_health">간 건강</label>
+
+<!-- 검색 결과를 출력할 div -->
+<div id="search-results"></div>
+
+<script>
+  const data = [
+    { name: "루테인", tags: ["n_eye_health", "n_skin_health"] },
+    { name: "오메가3", tags: ["n_eye_health", "n_brain_health"] },
+    { name: "비타민 D", tags: ["n_bone_health"] },
+    { name: "밀크씨슬", tags: ["n_liver_health"] },
+  ];
+
+  // 체크박스 선택값을 배열로 저장
+  function getSelectedTags() {
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+    const selectedTags = Array.from(checkboxes).map(checkbox => checkbox.value);
+    return selectedTags;
+  }
+
+  // 선택된 태그가 포함된 데이터를 필터링
+  function filterData() {
+    const selectedTags = getSelectedTags();
+    const filteredData = data.filter(item => {
+      return selectedTags.every(tag => item.tags.includes(tag));
+    });
+    return filteredData;
+  }
+
+  // 검색 결과를 출력
+  function renderSearchResults() {
+    const searchResultsEl = document.getElementById("search-results");
+    searchResultsEl.innerHTML = "";
+    const filteredData = filterData();
+    filteredData.forEach(item => {
+      const itemEl = document.createElement("div");
+      itemEl.textContent = item.name;
+      searchResultsEl.appendChild(itemEl);
+    });
+  }
+
+  // 체크박스 선택 시 검색 결과 업데이트
+  const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+  checkboxes.forEach(checkbox => {
+    checkbox.addEventListener("change", event => {
+      renderSearchResults();
+    });
+  });
+
+  // 첫 페이지 로드시 검색 결과 표시
+  renderSearchResults();
+</script>

@@ -1,0 +1,49 @@
+<!-- HTML 코드 -->
+<label for="search-input">검색어:</label>
+<input type="text" id="search-input">
+<div id="result-container"></div>
+
+<!-- JavaScript 코드 -->
+<script>
+  const data = [
+    { name: '루테인', category: '눈건강' },
+    { name: '오메가3', category: '눈건강' },
+    { name: '비타민 D', category: '눈건강' },
+    { name: '밀크씨슬', category: '간건강' },
+    { name: '비타민 B', category: '간건강' },
+    { name: '글루타치온', category: '운동선수' },
+    { name: '콜라겐', category: '피부건강' },
+    { name: '비오틴', category: '헤어건강' },
+  ];
+
+  const searchInput = document.getElementById('search-input');
+  const resultContainer = document.getElementById('result-container');
+
+  function search() {
+    const keyword = searchInput.value.trim();
+    const result = [];
+
+    data.forEach((item) => {
+      if (item.category.includes(keyword)) {
+        result.push(item);
+      }
+    });
+
+    resultContainer.innerHTML = '';
+    if (result.length === 0) {
+      resultContainer.innerHTML = '일치하는 검색결과가 없습니다.';
+    } else {
+      result.forEach((item) => {
+        const div = document.createElement('div');
+        div.textContent = item.name;
+        resultContainer.appendChild(div);
+      });
+    }
+  }
+
+  searchInput.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+      search();
+    }
+  });
+</script>
